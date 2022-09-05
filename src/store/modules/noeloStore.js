@@ -1,118 +1,31 @@
+import axios from "axios"
+
 const state = {
-  mbMenuData: [{
-      menuType: 'S',
-      mainText: 'SHOP',
-      mainLink: '',
-      subArr: [{
-          link: '#',
-          title: 'ALL PRODUCTS'
-        },
-        {
-          link: '#',
-          title: 'NEWBORN'
-        },
-        {
-          link: '#',
-          title: 'BABY'
-        },
-        {
-          link: '#',
-          title: 'FAMILY'
-        },
-        {
-          link: '#',
-          title: 'BATH GOODS'
-        },
-        {
-          link: '#',
-          title: 'PRESENTS'
-        }
-      ]
-
-    },
-    {
-      menuType: 'S',
-      mainText: 'ABOUT',
-      mainLink: '',
-      subArr: [{
-          link: '#',
-          title: 'BRAND STORY'
-        },
-        {
-          link: '#',
-          title: 'WHO WE ARE'
-        },
-        {
-          link: '#',
-          title: 'NAKE A WISH'
-        },
-        {
-          link: '#',
-          title: 'PRESS'
-        }
-      ]
-
-    },
-    {
-      menuType: 'S',
-      mainText: 'TRUST',
-      mainLink: '',
-      subArr: [{
-          link: '#',
-          title: 'FOOD GRADE'
-        },
-        {
-          link: '#',
-          title: 'PENTACERA™'
-        },
-        {
-          link: '#',
-          title: 'BABY SKINCARE'
-        },
-        {
-          link: '#',
-          title: 'CERTIFICATIONS'
-        },
-        {
-          link: '#',
-          title: 'INGREDIENT'
-        }
-      ]
-
-    },
-    {
-      menuType: 'A',
-      mainText: 'STOCKISTS',
-      mainLink: 'a.html',
-      subArr: []
-
-    },
-    {
-      menuType: 'A',
-      mainText: 'REVIEW',
-      mainLink: 'b.html',
-      subArr: []
-
-    },
-    {
-      menuType: 'S',
-      mainText: 'BENEFITS',
-      mainLink: '',
-      subArr: [{
-          link: '#',
-          title: 'EVENTS'
-        },
-        {
-          link: '#',
-          title: 'MEMBERS'
-        }
-      ]
-
-    }
-  ]
+  mbMenuData: []
 }
-const actions = {}
-const mutations = {}
+
+// 외부 백엔드 연동 또는 .json호출
+const actions = {
+  // ./data/menu.json호출
+  fetchMenu({commit}){
+    axios.get('./data/menu.json')
+    .then(response => {
+      // console.log(response.data)
+      // commit('mutation메소트', 자료)
+      commit('UPDATE_MENU', response.data)
+    })
+    .catch(err => console.log(err))
+
+  }
+}
+
+// store의 state 업데이트 용도 
+const mutations = {
+  UPDATE_MENU(state, payload){
+    state.mbMenuData = payload
+
+  }
+}
 const getters = {
   getMbMenuData(state){
     // 여러가지 데이터를 원하는 값으로 정렬하는 과정이 필요

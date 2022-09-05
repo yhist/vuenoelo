@@ -7,77 +7,7 @@
     <!-- 레이아웃 -->
     <div class="wrap">
       <!-- 상단 -->
-      <header class="header">
-        <div class="inner">
-          <button class="mb-bt"></button>
-          <a href="#" class="logo"></a>
-          <div class="gnb">
-            <ul class="menu clearfix">
-              <li>
-                <a href="#">SHOP</a>
-                <ul class="submenu">
-                  <li><a href="#">ALL PRODUCTS</a></li>
-                  <li><a href="#">NEWBORN</a></li>
-                  <li><a href="#">BABY</a></li>
-                  <li><a href="#">FAMILY</a></li>
-                  <li><a href="#">BATH GOODS</a></li>
-                  <li><a href="#">PRESENTS</a></li>
-                </ul>
-              </li>
-              <li>
-                <a href="#">ABOUT</a>
-                <ul class="submenu">
-                  <li><a href="#">BRAND STORY</a></li>
-                  <li><a href="#">WHO WE ARE</a></li>
-                  <li><a href="#">NAKE A WISH</a></li>
-                  <li><a href="#">PRESS</a></li>
-                </ul>
-              </li>
-              <li>
-                <a href="#">TRUST</a>
-                <ul class="submenu">
-                  <li><a href="#">FOOD GRADE</a></li>
-                  <li><a href="#">PENTACERA</a></li>
-                  <li><a href="#">BABY SKINCARE</a></li>
-                  <li><a href="#">CERTIFICATIONS</a></li>
-                  <li><a href="#">INGREDIENT</a></li>
-                </ul>
-              </li>
-              <li>
-                <a href="#">STOCKISTS</a></li>
-              <li>
-                <a href="#">REVIEW</a>
-              </li>
-              <li>
-                <a href="#">BENEFITS</a>
-                <ul class="submenu">
-                  <li><a href="#">EVENTS</a></li>
-                  <li><a href="#">MEMBERS</a></li>
-                </ul>
-              </li>
-            </ul>
-          </div>
-          <div class="member">
-            <ul class="member-list clearfix">
-              <li>
-                <a href="#" class="member-cart">
-                  <i class="tooltip">장바구니</i>
-                </a>
-              </li>
-              <li>
-                <a href="#" class="member-mypage">
-                  <i class="tooltip">마이페이지</i>
-                </a>
-              </li>
-              <li>
-                <a href="#" class="member-login">
-                  <i class="tooltip">로그인</i>
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </header>
+      <HeaderView/>
       <!-- 비주얼 -->
       <VisualView />
       <!-- 제품카테고리 -->
@@ -122,12 +52,12 @@
 
 </template>
 
-<script>
-  import {onMounted} from 'vue';
-  import $ from 'jquery';
-  
+<script>  
+  import {useStore} from 'vuex';
+
   import MbDiv from '@/components/MbDiv.vue';
   import BannerView from '@/components/BannerView.vue';
+  import HeaderView from './components/HeaderView.vue';
   import VisualView from '@/components/VisualView.vue';
   import CategoryView from '@/components/CategoryView.vue';
   import SitemapView from '@/components/SitemapView.vue';
@@ -135,35 +65,16 @@
   export default {
     name: 'App',
     components: {
-      MbDiv,
-      BannerView,
-      VisualView,
-      CategoryView,
-      SitemapView
-    },
+    MbDiv,
+    BannerView,
+    HeaderView,
+    VisualView,
+    CategoryView,
+    SitemapView,
+},
     setup() {
-      onMounted(() => {
-        // 스크롤시 header 고정
-        let header = $('.header');
-        let wrap = $('.wrap');
-        let fixY = $('.banner').height();
-
-        $(window).scroll(function () {
-          // 스크롤바의 세로상단 px 값
-          let temp = $(window).scrollTop();
-          // 50은 banner의 높이 값 px
-          if (temp > fixY) {
-            header.addClass('header-fix');
-            wrap.addClass('wrap-fix');
-          } else {
-            header.removeClass('header-fix');
-            wrap.removeClass('wrap-fix');
-          }
-        });
-      });
-
-      // const mbMenuData = computed();
-
+      const store = useStore();
+      store.dispatch('fetchMenu');
       return {
       }
     }

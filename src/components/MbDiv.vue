@@ -70,7 +70,7 @@
 </template>
 
 <script>
-  import { computed, onMounted } from 'vue';
+  import { computed, onUpdated } from 'vue';
   import $ from 'jquery';
   import {useStore} from 'vuex';
 
@@ -82,10 +82,12 @@
       const store = useStore();
       // store의 state(데이터)s는 수시로 변경되므로 computed로 감시한다.      
       const mbmenu = computed(() => store.getters.getMbMenuData );
+      // store의 action호출
+      // store.dispatch('액션메소드') ->  app에서 한번만 날림
 
 
       // 화면에 html 의 구성이 완료되면
-      onMounted(() => {
+      onUpdated(() => {
         // 모바일 메뉴
         let mb_div = $('.mb-div');
 
@@ -93,6 +95,11 @@
         let mb_bt = $('.mb-bt');
         mb_bt.click(function () {
           mb_div.show();
+        });
+        // 모바일 닫기 버튼 기능
+        let mb_close = $('.mb-close');
+        mb_close.click(function () {
+          mb_div.hide();
         });
 
         // 배경 누르면 닫기
@@ -105,6 +112,7 @@
           // 신호 전달 막기
           event.stopPropagation();
         });
+
 
         // 모바일 메뉴 기능
         let mb_menu_li = $(' .mb-menu > li ');
@@ -198,7 +206,7 @@
   .mb-div .mb-top .mb-close {
     position: absolute;
     right: 0px;
-    top: 20px;
+    top: 70px;
     display: block;
     width: 20px;
     height: 20px;

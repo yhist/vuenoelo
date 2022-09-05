@@ -3,12 +3,16 @@
     <Swiper 
     v-bind:modules="modules" 
     v-bind:autoplay="{
-        delay: 2000,
+        delay: 3000,
         disableOnInteraction: false,
-      }" 
-    v-bind:loop="true" 
+      }"
+    v-bind:loop= "true" 
+    v-bind:pagination = "{
+      el: '.sw-visual-pg',
+      clickable: true
+    }" 
     v-on:swiper="onSwiper"
-    v-on:slideCahnge="onSlideChange" 
+        v-on:slideChange="onSlideChange" 
     class="sw-visual">
 
       <swiper-slide class="swiper-slide" v-for="(item, index) in slideData" v-bind:key="index">
@@ -20,6 +24,10 @@
         :vbt="item.vbt" 
         />
       </swiper-slide>
+      <!-- 슬라이드 콘트롤 -->
+      <div class="sw-visual-control">
+        <div class="sw-visual-pg"></div>
+      </div>
     </Swiper>
 
   </section>
@@ -28,9 +36,11 @@
 <script>
   import {ref} from 'vue';
 
-  import {Autoplay} from 'swiper';
+  import {Autoplay, Pagination} from 'swiper';
   import {Swiper, SwiperSlide} from 'swiper/vue';
   import 'swiper/css';
+  import 'swiper/css/pagination';
+
 
   import VisualList from '@/components/VisualList.vue'
   export default {
@@ -41,48 +51,40 @@
       },
       
   setup() {
-const slideData = ref([]);
-    slideData.value = [
-      {
-        vimg:'PC_minimal_new.png',
-        vtitle:"밀크 에센스 로션",
-        vtxt:"국내 최초 100% <br />식품 그레이드 성분",
-        vbt:"SHOP",
-        vlink:"#"
-      },
-      {
-        vimg:'PC1_newborn.png',
-        vtitle:"SPECIAL OFFER",
-        vtxt:"노엘로힐스가 제안하는 <br />아기 스킨케어 출산준비물",
-        vbt:"SHOP",
-        vlink:"#"
-      },
-      {
-        vimg:'PC2_BabyEssence.png',
-        vtitle:"밀크 에센스 로션",
-        vtxt:"아기 피부의 미래를 결정해주는 <br />베이비 에센스",
-        vbt:"SHOP",
-        vlink:"#"
-      },
-      {
-        vimg:'PC3_Branding.png',
-        vtitle:"8:23 PM",
-        vtxt:"가족에게 행복을 선사하는 <br />스킨케어 라이프스타일 브랜드",
-        vbt:"SHOP",
-        vlink:"#"
-      }
-    ];
+  const slideData = ref([]);
+      slideData.value = [
+        {
+          vimg:'PC_minimal_new.png',
+          vtitle:"밀크 에센스 로션",
+          vtxt:"국내 최초 100% <br />식품 그레이드 성분",
+          vbt:"SHOP",
+          vlink:"#"
+        },
+        {
+          vimg:'PC1_newborn.png',
+          vtitle:"SPECIAL OFFER",
+          vtxt:"노엘로힐스가 제안하는 <br />아기 스킨케어 출산준비물",
+          vbt:"SHOP",
+          vlink:"#"
+        },
+        {
+          vimg:'PC2_BabyEssence.png',
+          vtitle:"밀크 에센스 로션",
+          vtxt:"아기 피부의 미래를 결정해주는 <br />베이비 에센스",
+          vbt:"SHOP",
+          vlink:"#"
+        },
+        {
+          vimg:'PC3_Branding.png',
+          vtitle:"8:23 PM",
+          vtxt:"가족에게 행복을 선사하는 <br />스킨케어 라이프스타일 브랜드",
+          vbt:"SHOP",
+          vlink:"#"
+        }
+      ]
 
-    const onSwiper = (swiper) => {
-      console.log(swiper)
-    };
-    const onSlideChange = () => {
-      console.log('slide change')
-    };
     return {
-      onSwiper,
-      onSlideChange,
-      modules:[Autoplay],
+      modules:[ Autoplay, Pagination ],
       slideData
     }
   }
@@ -163,6 +165,7 @@ const slideData = ref([]);
     display: block;
     text-align: center;
     padding-top: 50px 0;
+    padding-bottom: 20px;
   }
 
   .visual .sw-visual .visual-title {
@@ -189,6 +192,7 @@ const slideData = ref([]);
     color: #fff;
     background-color: #ffcc00;
     padding: 10px 20px;
+    cursor: pointer;
   }
 
   /* 비주얼 반응형 */
